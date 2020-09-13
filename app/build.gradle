@@ -1,0 +1,114 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.kuba.bunqrecruitmentapp"
+        minSdkVersion 22
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_URL", "\"https://public-api.sandbox.bunq.com/v1/\""
+            buildConfigField "String", "API_KEY", "\"sandbox_2ef55f8732bca69b0fcae3bdb662062f3b041c34a8bb6c4c3b5aad25\""
+        }
+        debug { //Change variables for test server
+            buildConfigField "String", "API_URL", "\"https://public-api.sandbox.bunq.com/v1/\""
+            buildConfigField "String", "API_KEY", "\"sandbox_2ef55f8732bca69b0fcae3bdb662062f3b041c34a8bb6c4c3b5aad25\""
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions { jvmTarget = "1.8" }
+}
+
+ext {
+    //Base
+    ktx_core_ver = "1.3.1"
+    appcompat_ver = "1.2.0"
+    //Retrofit
+    retrofit_ver = "2.9.0"
+    //RxJava
+    rxjava_ver = "2.2.12"
+    rxandroid_ver = "2.1.1"
+    //Dagger 2
+    dagger_ver= "2.28.3"
+    //Glide
+    glide_ver = "4.11.0"
+    //Nav
+    nav_ver = "2.3.0"
+    //Views
+    constraint_ver = "2.0.1"
+    card_view_ver = "1.0.0"
+    recycler_ver = "1.1.0"
+    material_ver = "1.2.1"
+    //Tools
+    okhttp_ver = "4.3.1"
+    gson_ver = "2.8.6"
+    //Test
+    junit_ver = "4.12"
+    junit_androidx_ver = "1.1.2"
+    esspresso_ver = "3.3.0"
+    mockito_ver = "2.7.22"
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    //Base
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_ver"
+    implementation "androidx.core:core-ktx:$ktx_core_ver"
+    implementation "androidx.appcompat:appcompat:$appcompat_ver"
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_ver"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_ver"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_ver"
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_ver"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_ver"
+    // Dagger 2
+    implementation "com.google.dagger:dagger:$dagger_ver"
+    implementation "com.google.dagger:dagger-android-support:$dagger_ver"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt "com.google.dagger:dagger-compiler:$dagger_ver"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_ver"
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glide_ver"
+    //Nav
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_ver"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_ver"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_ver"
+    //Views
+    implementation "com.google.android.material:material:$material_ver"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_ver"
+    implementation "androidx.cardview:cardview:$card_view_ver"
+    implementation "androidx.recyclerview:recyclerview:$recycler_ver"
+    //Tools
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_ver"
+    implementation "com.google.code.gson:gson:$gson_ver"
+    //Test
+    testImplementation "junit:junit:$junit_ver"
+    testImplementation "org.mockito:mockito-core:$mockito_ver"
+    androidTestImplementation "androidx.test.ext:junit:$junit_androidx_ver"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$esspresso_ver"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_ver"
+}
