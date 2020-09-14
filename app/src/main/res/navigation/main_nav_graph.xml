@@ -3,11 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/paymentsFragment">
+    app:startDestination="@id/startSessionFragment">
 
     <fragment
         android:id="@+id/paymentsFragment"
-        android:name="com.kuba.bunqrecruitmentapp.ui.PaymentsFragment"
+        android:name="com.kuba.bunqrecruitmentapp.ui.payments.PaymentsFragment"
         android:label="fragment_payments"
-        tools:layout="@layout/fragment_payments" />
+        tools:layout="@layout/fragment_payments" >
+        <argument
+            android:name="user_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/startSessionFragment"
+        android:name="com.kuba.bunqrecruitmentapp.ui.start_session.StartSessionFragment"
+        android:label="StartSessionFragment" >
+        <action
+            android:id="@+id/action_startSessionFragment_to_paymentsFragment"
+            app:destination="@id/paymentsFragment" />
+    </fragment>
 </navigation>

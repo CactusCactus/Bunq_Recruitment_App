@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 
 android {
@@ -10,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.kuba.bunqrecruitmentapp"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -27,11 +28,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_URL", "\"https://public-api.sandbox.bunq.com/v1/\""
-            buildConfigField "String", "API_KEY", "\"sandbox_2ef55f8732bca69b0fcae3bdb662062f3b041c34a8bb6c4c3b5aad25\""
+            buildConfigField "String", "API_KEY", "\"sandbox_677d7dabd04572152e32285d8f8748212f742385769ea43a6c901a08\""
         }
         debug { //Change variables for test server
             buildConfigField "String", "API_URL", "\"https://public-api.sandbox.bunq.com/v1/\""
-            buildConfigField "String", "API_KEY", "\"sandbox_2ef55f8732bca69b0fcae3bdb662062f3b041c34a8bb6c4c3b5aad25\""
+            buildConfigField "String", "API_KEY", "\"sandbox_677d7dabd04572152e32285d8f8748212f742385769ea43a6c901a08\""
         }
     }
     compileOptions {

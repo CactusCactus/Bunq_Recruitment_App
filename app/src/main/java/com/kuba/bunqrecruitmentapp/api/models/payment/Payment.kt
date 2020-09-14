@@ -1,6 +1,7 @@
-package com.kuba.bunqrecruitmentapp.api.models
+package com.kuba.bunqrecruitmentapp.api.models.payment
 
 import com.google.gson.annotations.SerializedName
+import com.kuba.bunqrecruitmentapp.api.models.*
 
 data class Payment (
 	@SerializedName("id") val id : Int,
