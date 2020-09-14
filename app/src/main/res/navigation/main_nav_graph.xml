@@ -9,17 +9,33 @@
         android:id="@+id/paymentsFragment"
         android:name="com.kuba.bunqrecruitmentapp.ui.payments.PaymentsFragment"
         android:label="fragment_payments"
-        tools:layout="@layout/fragment_payments" >
+        tools:layout="@layout/fragment_payments">
         <argument
             android:name="user_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_paymentsFragment_to_newPaymentFragment"
+            app:destination="@id/newPaymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/startSessionFragment"
         android:name="com.kuba.bunqrecruitmentapp.ui.start_session.StartSessionFragment"
-        android:label="StartSessionFragment" >
+        android:label="StartSessionFragment">
         <action
             android:id="@+id/action_startSessionFragment_to_paymentsFragment"
-            app:destination="@id/paymentsFragment" />
+            app:destination="@id/paymentsFragment"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPaymentFragment"
+        android:name="com.kuba.bunqrecruitmentapp.ui.payments.new_payment.NewPaymentFragment"
+        android:label="NewPaymentFragment">
+        <argument
+            android:name="user_id"
+            app:argType="integer" />
+        <argument
+            android:name="account_id"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -9,7 +9,7 @@ import com.kuba.bunqrecruitmentapp.api.models.api_context.session.SessionBody
 import com.kuba.bunqrecruitmentapp.api.models.api_context.session.SessionResponse
 import com.kuba.bunqrecruitmentapp.api.models.monetary_account.MonetaryAccountResponse
 import com.kuba.bunqrecruitmentapp.api.models.payment.PaymentResponse
-import com.kuba.bunqrecruitmentapp.api.models.user.UserLight
+import com.kuba.bunqrecruitmentapp.api.models.payment.PaymentSendBody
 import com.kuba.bunqrecruitmentapp.constants.USER_AGENT
 import com.kuba.bunqrecruitmentapp.utils.KeyController
 import io.reactivex.Observable
@@ -77,9 +77,22 @@ class ApiService @Inject constructor(private val apiInterface: ApiInterface) {
         return Observable.error(Throwable("Token null"))
     }
 
-    fun getUsers(token: String?): Observable<List<UserLight>> {
+    fun postPayment(
+        token: String?,
+        userId: Int,
+        accountId: Int,
+        paymentSendBody: PaymentSendBody
+    ): Observable<Unit> {
         token?.let {
-            return apiInterface.getUsers(USER_AGENT, token)
+            val signature = KeyController.signBody(Gson().toJson(paymentSendBody))
+            return apiInterface.postPayment(
+                USER_AGENT,
+                it,
+                signature,
+                userId,
+                accountId,
+                paymentSendBody
+            )
         }
         return Observable.error(Throwable("Token null"))
     }

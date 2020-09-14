@@ -7,4 +7,12 @@
     <string name="success">Success</string>
     <string name="fail">Fail :(</string>
     <string name="retry">Retry</string>
+    <string name="e_mail">E-mail</string>
+    <string name="amount">Amount</string>
+    <string name="name">Name</string>
+    <string name="send">Send</string>
+    <string name="fill_all_field">Fill all field</string>
+    <string name="transaction_complate">Transaction complete</string>
+    <string name="transacion_failed">Transaction failed</string>
+    <string name="description">Description</string>
 </resources>

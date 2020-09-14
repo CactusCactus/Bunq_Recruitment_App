@@ -2,6 +2,7 @@ package com.kuba.bunqrecruitmentapp.di
 
 import com.kuba.bunqrecruitmentapp.di.view_model.ViewModelModule
 import com.kuba.bunqrecruitmentapp.ui.payments.PaymentsFragment
+import com.kuba.bunqrecruitmentapp.ui.payments.new_payment.NewPaymentFragment
 import com.kuba.bunqrecruitmentapp.ui.start_session.StartSessionFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -11,4 +12,5 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(fragment: PaymentsFragment)
     fun inject(fragment: StartSessionFragment)
+    fun inject(fragment: NewPaymentFragment)
 }

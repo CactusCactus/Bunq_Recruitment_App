@@ -7,7 +7,7 @@ import com.kuba.bunqrecruitmentapp.api.models.api_context.session.SessionBody
 import com.kuba.bunqrecruitmentapp.api.models.api_context.session.SessionResponse
 import com.kuba.bunqrecruitmentapp.api.models.monetary_account.MonetaryAccountResponse
 import com.kuba.bunqrecruitmentapp.api.models.payment.PaymentResponse
-import com.kuba.bunqrecruitmentapp.api.models.user.UserLight
+import com.kuba.bunqrecruitmentapp.api.models.payment.PaymentSendBody
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -33,14 +33,15 @@ interface ApiInterface {
         @Body body: SessionBody
     ): Observable<SessionResponse>
 
-    @POST("session-server")
-    fun startSession()
-
-    @GET("user")
-    fun getUsers(
+    @POST("user/{userID}/monetary-account/{monetary-accountID}/payment")
+    fun postPayment(
         @Header("User-Agent") userAgent: String,
-        @Header("X-Bunq-Client-Authentication") token: String
-    ): Observable<List<UserLight>>
+        @Header("X-Bunq-Client-Authentication") authToken: String,
+        @Header("X-Bunq-Client-Signature") signature: String,
+        @Path("userID") userId: Int,
+        @Path("monetary-accountID") accountId: Int,
+        @Body paymentSendBody: PaymentSendBody
+    ): Observable<Unit>
 
     @GET("user/{userID}/monetary-account")
     fun getMonetaryAccounts(

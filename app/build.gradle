@@ -53,7 +53,7 @@ ext {
     rxjava_ver = "2.2.12"
     rxandroid_ver = "2.1.1"
     //Dagger 2
-    dagger_ver= "2.28.3"
+    dagger_ver = "2.28.3"
     //Glide
     glide_ver = "4.11.0"
     //Nav
@@ -66,6 +66,7 @@ ext {
     //Tools
     okhttp_ver = "4.3.1"
     gson_ver = "2.8.6"
+    leak_cannary_ver = "2.4"
     //Test
     junit_ver = "4.12"
     junit_androidx_ver = "1.1.2"
@@ -106,6 +107,7 @@ dependencies {
     //Tools
     implementation "com.squareup.okhttp3:okhttp:$okhttp_ver"
     implementation "com.google.code.gson:gson:$gson_ver"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_cannary_ver"
     //Test
     testImplementation "junit:junit:$junit_ver"
     testImplementation "org.mockito:mockito-core:$mockito_ver"

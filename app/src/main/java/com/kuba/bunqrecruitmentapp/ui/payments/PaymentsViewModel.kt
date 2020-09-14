@@ -18,6 +18,8 @@ class PaymentsViewModel @Inject constructor(
 ) : ViewModel() {
     val paymentListLD = MutableLiveData<List<Payment>>()
     val nextPageLD = MutableLiveData<Int>()
+    var accountId: Int? = null
+    var userId: Int? = null
     private val compositeDisposable = CompositeDisposable()
 
     fun fetchPayments(context: Context, userId: Int) {
@@ -26,9 +28,11 @@ class PaymentsViewModel @Inject constructor(
             apiService.getMonetaryAccounts(token, userId, nextPageLD.value)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .flatMap {
-                    val accountId = it.response[0].monetaryAccountBank.id
-                    apiService.getPayments(token, userId, accountId)
+                .flatMap { response ->
+                    accountId = response.response[0].monetaryAccountBank.id
+                    accountId?.let {
+                        apiService.getPayments(token, userId, it)
+                    }
                 }.observeOn(AndroidSchedulers.mainThread()).subscribe({
                     nextPageLD.value = it.pagination.getNewerUrlId()
                     paymentListLD.value = it.response.map { response -> response.payment }
