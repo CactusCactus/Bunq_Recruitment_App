@@ -25,6 +25,11 @@ class PaymentsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         DaggerAppComponent.create().inject(this)
         viewModel = ViewModelProvider(this, vmFactory).get(PaymentsViewModel::class.java)
+        arguments?.let { args ->
+            viewModel.userId = PaymentsFragmentArgs.fromBundle(args).userId
+            paymentsAdapter.clear()
+            viewModel.fetchPayments(requireContext())
+        }
     }
 
     override fun onCreateView(
@@ -37,19 +42,14 @@ class PaymentsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-        arguments?.let { args ->
-            viewModel.userId = PaymentsFragmentArgs.fromBundle(args).userId
-            viewModel.userId?.let {
-                viewModel.fetchPayments(view.context, it)
-            }
-        }
         setUpRecyclerView()
+        observeViewModel()
         setUpClickListeners()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.recyclerView.adapter = null
         _binding = null
     }
 
@@ -57,11 +57,16 @@ class PaymentsFragment : Fragment() {
         viewModel.apply {
             paymentListLD.observe(viewLifecycleOwner, Observer { paymentList ->
                 paymentList.let {
-                    paymentsAdapter.setData(it)
+                    paymentsAdapter.setData(paymentList)
+                    paymentsAdapter.fetchedAll = nextPage == null
                 }
             })
-            nextPageLD.observe(viewLifecycleOwner, Observer { nextPage ->
-                paymentsAdapter.fetchedAll = nextPage == null
+            paymentListNextPageLD.observe(viewLifecycleOwner, Observer { paymentList ->
+                paymentList.let {
+                    paymentsAdapter.addData(paymentList)
+                    paymentsAdapter.fetchedAll = nextPage == null
+                }
+
             })
         }
     }
@@ -71,12 +76,12 @@ class PaymentsFragment : Fragment() {
             adapter = paymentsAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    if (!recyclerView.canScrollVertically(1) && viewModel.nextPageLD.value != null) {
-                        viewModel.userId?.let { viewModel.fetchPayments(recyclerView.context, it) }
+                    if (!recyclerView.canScrollVertically(1) && viewModel.nextPage != null) {
+                        viewModel.userId?.let { viewModel.fetchNextPage(recyclerView.context) }
                     }
                 }
             })
-            (adapter as PaymentsAdapter).registerAdapterDataObserver(object :
+            paymentsAdapter.registerAdapterDataObserver(object :
                 RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                     if (positionStart == 0) {
@@ -84,6 +89,7 @@ class PaymentsFragment : Fragment() {
                     }
                 }
             })
+            paymentsAdapter.clear()
         }
     }
 

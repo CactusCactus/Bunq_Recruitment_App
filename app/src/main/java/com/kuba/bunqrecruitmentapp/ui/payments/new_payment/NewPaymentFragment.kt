@@ -16,6 +16,7 @@ import com.kuba.bunqrecruitmentapp.api.models.ContactType
 import com.kuba.bunqrecruitmentapp.api.models.payment.PaymentSendBody
 import com.kuba.bunqrecruitmentapp.databinding.FragmentNewPaymentBinding
 import com.kuba.bunqrecruitmentapp.di.DaggerAppComponent
+import com.kuba.bunqrecruitmentapp.hideKeyboard
 import javax.inject.Inject
 
 class NewPaymentFragment : Fragment() {
@@ -51,6 +52,7 @@ class NewPaymentFragment : Fragment() {
 
     private fun setClickListeners() {
         binding.sendBtn.setOnClickListener {
+            context?.hideKeyboard(it)
             if (isAnyFieldBlank()) {
                 Toast.makeText(context, getString(R.string.fill_all_field), Toast.LENGTH_SHORT)
                     .show()

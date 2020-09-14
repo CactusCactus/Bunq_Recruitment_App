@@ -18,10 +18,21 @@ class PaymentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             notifyItemChanged(paymentsList.size)
         }
 
-    fun setData(newData: List<Payment>) {
+    fun addData(newData: List<Payment>) {
         val diffResult = DiffUtil.calculateDiff(PaymentDiffUtilCallback(paymentsList, newData))
         paymentsList.addAll(newData)
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun setData(newData: List<Payment>) {
+        paymentsList.clear()
+        paymentsList.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+    fun clear() {
+        paymentsList.clear()
+        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {

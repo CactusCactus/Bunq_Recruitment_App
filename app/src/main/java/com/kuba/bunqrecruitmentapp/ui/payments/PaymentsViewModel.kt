@@ -17,15 +17,26 @@ class PaymentsViewModel @Inject constructor(
     private val tokenController: TokenController
 ) : ViewModel() {
     val paymentListLD = MutableLiveData<List<Payment>>()
-    val nextPageLD = MutableLiveData<Int>()
+    val paymentListNextPageLD = MutableLiveData<List<Payment>>()
+    var nextPage: Int? = null
     var accountId: Int? = null
     var userId: Int? = null
     private val compositeDisposable = CompositeDisposable()
 
-    fun fetchPayments(context: Context, userId: Int) {
+
+    fun fetchPayments(context: Context) {
+        performFetch(context, null)
+    }
+
+    fun fetchNextPage(context: Context) {
+        performFetch(context, nextPage)
+    }
+
+    private fun performFetch(context: Context, nextPage: Int?) {
         val token = tokenController.getApiToken(context)
+        val userId = userId ?: return
         compositeDisposable.add(
-            apiService.getMonetaryAccounts(token, userId, nextPageLD.value)
+            apiService.getMonetaryAccounts(token, userId, nextPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap { response ->
@@ -34,7 +45,7 @@ class PaymentsViewModel @Inject constructor(
                         apiService.getPayments(token, userId, it)
                     }
                 }.observeOn(AndroidSchedulers.mainThread()).subscribe({
-                    nextPageLD.value = it.pagination.getNewerUrlId()
+                    this.nextPage = it.pagination.getNewerUrlId()
                     paymentListLD.value = it.response.map { response -> response.payment }
                 }, {
                     Log.e(javaClass.name, "fail in fetchPayments()", it)

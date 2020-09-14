@@ -27,7 +27,7 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(NewPaymentViewModel::class)
-    abstract fun bindNEwPaymentViewModel(newPaymentViewModel: NewPaymentViewModel): ViewModel
+    abstract fun bindNecfwPaymentViewModel(newPaymentViewModel: NewPaymentViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: InjectingViewModelFactory): ViewModelProvider.Factory
